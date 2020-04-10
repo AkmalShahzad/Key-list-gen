@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Key Generator</title>
+
+  <style>
+    .col {
+    width: 33%;
+    margin: auto;
+    float: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="keyContainer">
+    <div class="col">
+      <h2>Word/Phrase 1</h2>
+      <textarea name="area-1" id="1" cols="30" rows="10"></textarea> <br>
+      <button onclick="handleClear(1)">Clear</button>
+    </div>
+    <div class="col">
+      <h2>Word/Phrase 2</h2>
+      <textarea name="area-2" id="2" cols="30" rows="10"></textarea> <br>
+      <button onclick="handleClear(2)">Clear</button>
+    </div>
+    <div class="col">
+      <h2>Word/Phrase 3</h2>
+      <textarea name="area-3" id="3" cols="30" rows="10"></textarea> <br>
+      <button onclick="handleClear(3)">Clear</button>
+    </div>
+    
+  </div>
+  <div>
+    <button onclick="handleGen()">Generate keywords</button>
+  </div>
+
+
+
+  <div>
+    <div class="col">
+      <h2>Keyword List</h2>
+      <textarea name="area-2" id="4" cols="30" rows="10"></textarea> <br>
+      <button onclick="handleCopy()">Copy List to master</button>
+      <button onclick="handleClear(4)">Clear</button>
+    </div>
+    <div class="col">
+      <h2>Master List</h2>
+      <textarea name="area-3" id="5" cols="30" rows="10"></textarea> <br>
+      <button onclick="handleClear(5)">Clear</button>
+    </div>
+  </div>
+</body>
+
+<script>
+  const areaOne = document.getElementById('1')
+  const areaTwo = document.getElementById('2')
+  const areaThree = document.getElementById('3')
+  const keywordList = document.getElementById('4')
+  const masterList = document.getElementById('5')
+
+  let finalStr;
+
+  handleClear = (id) => {
+    id === 1 &&  (areaOne.value = '')
+    id === 2 &&  (areaTwo.value = '')
+    id === 3 &&  (areaThree.value = '')
+    id === 4 &&  (keywordList.value = '')
+    id === 5 &&  (masterList.value = '')
+    
+  }
+
+  handleGen = () => {
+    const setOne = areaOne.value
+    const setTwo = areaTwo.value
+    const setThree = areaThree.value
+
+
+    const arrOne = setOne.split(/\r?\n/);
+    const arrTwo = setTwo.split(/\r?\n/);
+    const arrThree = setThree.split(/\r?\n/);
+
+    let setDouble = arrOne.map(itemOne => {
+      return arrTwo.map(itemTwo => {
+          return (`${itemOne} ${itemTwo}`
+          )
+        })
+      
+    })
+
+    let TempMerged = [].concat.apply([], setDouble);
+
+
+    let setTriple = TempMerged.map(item => {
+      return arrThree.map(itemThree => {
+        return `${item} ${itemThree}`
+      })
+    })
+    
+    let finalArray = [].concat.apply([], setTriple);
+    console.log(finalArray.length);
+    
+    finalStr = finalArray.join('\r\n')
+    keywordList.value = ''
+    keywordList.value = finalStr
+    
+  }
+  
+  handleCopy = () => {
+    masterList.value = masterList.value +'\r\n'+ finalStr
+    
+  }
+  
+</script>
+</html>
+
